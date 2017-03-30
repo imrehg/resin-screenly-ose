@@ -1,0 +1,27 @@
+FROM resin/%%RESIN_MACHINE_NAME%%-debian:jessie
+
+WORKDIR /usr/src/app
+# Enable systemd
+ENV INITSYSTEM on
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get -y install \
+     build-essential \
+     git-core net-tools python-pip python-netifaces python-simplejson python-imaging python-dev sqlite3 libffi-dev libssl-dev && \
+    apt-get clean
+
+# Select which version of Screenly to deploy, can be branch name or commit id
+ENV SCREENLY_VERSION master
+RUN git clone https://github.com/wireload/screenly-ose.git screenly && \
+    cd screenly && \
+    git checkout -b deploy ${SCREENLY_VERSION} && \
+    pip install -r requirements.txt
+
+# Install config file to user root
+COPY screenly.conf /root/.screenly/
+
+# Install start script
+COPY start.sh ./
+
+CMD ["bash", "start.sh"]
