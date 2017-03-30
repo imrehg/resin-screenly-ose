@@ -19,7 +19,7 @@ configuration is sent to all devices in the fleet.
 
 ### Runtime Settings
 
-* By default the control Screenly control dashboard exposed on all interfaces,
+* `VPN_ONLY`: By default the control Screenly control dashboard exposed on all interfaces,
   set the [environment variable](https://docs.resin.io/management/env-vars/)
   `VPN_ONLY` equal to `1` if the control dashboard should be only accessible
   through the [device public URL](https://docs.resin.io/runtime/runtime/#public-device-urls).
